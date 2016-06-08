@@ -24,4 +24,21 @@ echo  'Key2:'
 echo  'Key3:'
 /app/vault/bin/vault unseal -address=${VAULT_ADDR} $KEY3
 
+grep 'Initial Root Token:' /tmp/vault.init.keys | cut -c21- > /tmp/vault.root.token
+
+export VAULT_TOKEN="$(cat /tmp/vault.root.token)"
+echo "Root Token:${VAULT_TOKEN}"
+
+export VAULT_TOKEN="$(/app/vault/bin/vault token-create -format=json | jq '.auth.client_token')"
+echo "Client Token:${VAULT_TOKEN}"
+
+echo 'Writing ...'
+/app/vault/bin/vault write secret/hello value=world
+echo 'Reading (table)...'
+/app/vault/bin/vault read secret/hello
+echo 'Reading (json) ...'
+/app/vault/bin/vault read -format=json secret/hello
+echo 'Deleting ...'
+/app/vault/bin/vault delete secret/hello
+
 echo 'Finished vault-init'
