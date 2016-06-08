@@ -27,6 +27,25 @@ echo  'Key3:'
 grep 'Initial Root Token:' /tmp/vault.init.keys | cut -c21- > /tmp/vault.root.token
 
 export VAULT_TOKEN="$(cat /tmp/vault.root.token)"
+
+echo 'Configuring CA'
+/app/vault/bin/vault mount pki
+/app/vault/bin/vault mount-tune -max-lease-ttl=87600h pki
+
+echo 'Generating root CA'
+/app/vault/bin/vault write pki/root/generate/internal common_name=vault.pathfinder.gov.bc.ca ttl=87600h
+
+/app/vault/bin/vault write pki/config/urls \
+      issuing_certificates="http://vault-drupal.pathfinder.gov.bc.ca/v1/pki/ca" \
+      crl_distribution_points="http://vault-drupal.pathfinder.gov.bc.ca/v1/pki/crl"
+/app/vault/bin/vault write pki/roles/pathfinder-dot-bcgov \
+    allowed_domains="pathfinder.bcgov" \
+    allow_subdomains="true" max_ttl="72h"
+
+echo 'Issuing certificate:'
+/app/vault/bin/vault write pki/issue/pathfinder-dot-bcgov \
+    common_name=something.pathfinder.bcgov
+    
 echo "Root Token:${VAULT_TOKEN}"
 
 export VAULT_TOKEN="$(/app/vault/bin/vault token-create -format=json | jq --raw-output '.auth.client_token')"
