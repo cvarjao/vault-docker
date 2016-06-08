@@ -23,7 +23,7 @@ RUN mkdir -p /app/vault/bin && \
      mkdir -p /data/vault
 
 COPY ./files/ /
-RUN find /app/s6.d -type f -exec chmod a+x {} \; && \
+RUN find /app/s6.d -type f -exec chmod a+x {} \;
 
 EXPOSE 8200
 
