@@ -29,7 +29,7 @@ grep 'Initial Root Token:' /tmp/vault.init.keys | cut -c21- > /tmp/vault.root.to
 export VAULT_TOKEN="$(cat /tmp/vault.root.token)"
 echo "Root Token:${VAULT_TOKEN}"
 
-export VAULT_TOKEN="$(/app/vault/bin/vault token-create -format=json | jq '.auth.client_token')"
+export VAULT_TOKEN="$(/app/vault/bin/vault token-create -format=json | jq --raw-output '.auth.client_token')"
 echo "Client Token:${VAULT_TOKEN}"
 
 echo 'Writing ...'
