@@ -12,4 +12,16 @@ else
   echo 'Vault is already initialized'
 fi
 
+echo  'Unsealing vault:'
+KEY1="$(grep 'Key 1:' /tmp/vault.init.keys | cut -c8-)"
+KEY2="$(grep 'Key 2:' /tmp/vault.init.keys | cut -c8-)"
+KEY3="$(grep 'Key 3:' /tmp/vault.init.keys | cut -c8-)"
+
+echo  'Key1:'
+/app/vault/bin/vault unseal -address=${VAULT_ADDR} $KEY1
+echo  'Key2:'
+/app/vault/bin/vault unseal -address=${VAULT_ADDR} $KEY2
+echo  'Key3:'
+/app/vault/bin/vault unseal -address=${VAULT_ADDR} $KEY3
+
 echo 'Finished vault-init'
