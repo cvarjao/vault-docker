@@ -1,5 +1,6 @@
 # Must use URL
 FROM registry.access.redhat.com/rhel7
+ENV VAULT_ADDR="http://127.0.0.1:8200"
 
 RUN yum install -y sudo unzip openssl  && \
     sed -i '/Defaults    requiretty/s/^/#/' /etc/sudoers && \
