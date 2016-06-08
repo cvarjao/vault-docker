@@ -3,14 +3,14 @@ FROM registry.access.redhat.com/rhel7
 ENV VAULT_ADDR="http://127.0.0.1:8200"
 ENV VAULT_VERSION=0.5.3
 
-RUN yum install -y sudo unzip openssl  && \
+RUN yum install -y sudo unzip tar openssl  && \
     sed -i '/Defaults    requiretty/s/^/#/' /etc/sudoers && \
     yum clean all -y
 
 # Add s6 overlay (https://github.com/just-containers/s6-overlay)
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.17.2.0/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" --exclude="./sbin" && \
-    tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin ./sbin && \
+    tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin ./sbin
 
 ADD https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 /usr/local/bin/jq
 RUN chmod a+x /usr/local/bin/jq
