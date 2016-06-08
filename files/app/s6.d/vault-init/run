@@ -8,6 +8,8 @@ IS_INITIALIZED="$(curl -k -m 5 "${VAULT_ADDR}/v1/sys/ini" | jq '.initialized')"
 if [ "$IS_INITIALIZED" != 'true' ]; then
   echo 'Initializing vault'
   /app/vault/bin/vault init -address=${VAULT_ADDR} | tee /tmp/vault.init.keys
+else
+  echo 'Vault is already initialized'
 fi
 
 touch /app/s6.d/vault-init/down
