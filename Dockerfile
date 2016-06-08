@@ -11,7 +11,7 @@ RUN mkdir -p /app/vault/bin && \
      unzip -d /app/vault/bin /tmp/vault_linux_amd64.zip && \
      rm /tmp/vault_linux_amd64.zip && \
      chmod 755 /app/vault/bin/vault && \
-     mkdir /data/vault
+     mkdir -p /data/vault
 
 COPY ./files/ /
 
