@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /app/vault/bin/vault server -config=/app/vault/config.hcl
