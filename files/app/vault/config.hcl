@@ -1,3 +1,5 @@
+disable_mlock = true
+
 backend "file" {
   path = "/data/vault"
 }
