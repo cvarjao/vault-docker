@@ -10,7 +10,8 @@ ADD https://releases.hashicorp.com/vault/0.5.3/vault_0.5.3_linux_amd64.zip /tmp/
 RUN mkdir -p /app/vault/bin && \
      unzip -d /app/vault/bin /tmp/vault_linux_amd64.zip && \
      rm /tmp/vault_linux_amd64.zip && \
-     chmod 755 /app/vault/bin/vault
+     chmod 755 /app/vault/bin/vault && \
+     mkdir /data/vault
 
 COPY ./files/ /
 
