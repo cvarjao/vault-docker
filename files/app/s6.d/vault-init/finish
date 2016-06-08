@@ -1,0 +1,4 @@
+#!/bin/bash
+s6-svc -x /app/s6.d/vault-init
+rm -rf /app/s6.d/vault-init
+s6-svscanctl -a /app/s6.d
