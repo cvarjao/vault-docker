@@ -17,4 +17,4 @@ COPY ./files/ /
 
 EXPOSE 8200
 
-ENTRYPOINT ["top", "-b"]
+ENTRYPOINT ["/app/vault/bin/vault", "server", "-config=/app/vault/config.hcl"]
