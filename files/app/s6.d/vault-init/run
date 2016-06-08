@@ -38,6 +38,8 @@ echo 'Generating root CA'
 /app/vault/bin/vault write pki/config/urls \
       issuing_certificates="http://vault-drupal.pathfinder.gov.bc.ca/v1/pki/ca" \
       crl_distribution_points="http://vault-drupal.pathfinder.gov.bc.ca/v1/pki/crl"
+
+echo 'Generating Cert'
 /app/vault/bin/vault write pki/roles/pathfinder-dot-bcgov \
     allowed_domains="pathfinder.bcgov" \
     allow_subdomains="true" max_ttl="72h"
