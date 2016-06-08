@@ -12,4 +12,4 @@ else
   echo 'Vault is already initialized'
 fi
 
-touch /app/s6.d/vault-init/down
+echo 'Finished vault-init'
