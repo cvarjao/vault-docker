@@ -4,7 +4,12 @@ FROM registry.access.redhat.com/rhel7
 RUN yum install -y sudo unzip openssl  && \
     sed -i '/Defaults    requiretty/s/^/#/' /etc/sudoers && \
     yum clean all -y
-    
+
+# Add s6 overlay (https://github.com/just-containers/s6-overlay)
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.17.2.0/s6-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" --exclude="./sbin" && \
+    tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin ./sbin && \
+
 ENV VAULT_VERSION 0.5.3
 ADD https://releases.hashicorp.com/vault/0.5.3/vault_0.5.3_linux_amd64.zip /tmp/vault_linux_amd64.zip
 RUN mkdir -p /app/vault/bin && \
@@ -17,4 +22,4 @@ COPY ./files/ /
 
 EXPOSE 8200
 
-ENTRYPOINT ["/app/vault/bin/vault", "server", "-config=/app/vault/config.hcl"]
+ENTRYPOINT ["/app/docker/start.sh"]
