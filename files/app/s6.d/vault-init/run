@@ -9,3 +9,5 @@ if [ "$IS_INITIALIZED" != 'true' ]; then
   echo 'Initializing vault'
   /app/vault/bin/vault init -address=${VAULT_ADDR} | tee /tmp/vault.init.keys
 fi
+
+touch /app/s6.d/vault-init/down
