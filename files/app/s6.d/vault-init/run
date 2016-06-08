@@ -31,6 +31,7 @@ echo "Root Token:${VAULT_TOKEN}"
 
 export VAULT_TOKEN="$(/app/vault/bin/vault token-create -format=json | jq --raw-output '.auth.client_token')"
 echo "Client Token:${VAULT_TOKEN}"
+/app/vault/bin/vault auth "${VAULT_TOKEN}"
 
 echo 'Writing ...'
 /app/vault/bin/vault write secret/hello value=world
